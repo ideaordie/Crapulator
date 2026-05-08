@@ -1125,7 +1125,7 @@
     }
 
   
-    /* v2.3.29 Level 10 final victory */
+    /* v2.3.30 Level 10 final victory */
     body.normal-calculator-mode {
       background: #050505 !important;
     }
@@ -1256,7 +1256,7 @@
     }
 
   
-    /* v2.3.29 normal calculator layout fix */
+    /* v2.3.30 normal calculator layout fix */
     body.normal-calculator-mode .calculator {
       grid-template-rows: auto auto 1fr !important;
     }
@@ -1277,7 +1277,7 @@
     }
 
   
-    /* v2.3.29 normal calculator button position reset */
+    /* v2.3.30 normal calculator button position reset */
     body.normal-calculator-mode .buttons {
       display: grid !important;
       grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -1299,7 +1299,7 @@
     }
 
   
-    /* v2.3.29 standalone normal calculator after final victory */
+    /* v2.3.30 standalone normal calculator after final victory */
     .normal-calculator-panel {
       width: min(calc(100vw - 20px), 560px);
       height: min(calc(100dvh - 90px), 860px);
@@ -1402,7 +1402,7 @@
     }
 
   
-    /* v2.3.29 CRAP CLUE */
+    /* v2.3.30 CRAP CLUE */
     .crap-clue-button {
       background: linear-gradient(135deg, #55ffff, #ff4dff, #ffe066) !important;
       color: #000 !important;
@@ -1420,7 +1420,7 @@
     }
 
   
-    /* v2.3.29 animated CRAP CLUE display text */
+    /* v2.3.30 animated CRAP CLUE display text */
     #display.clue-text {
   font-size: clamp(60px, 18cqw, 100px) !important;
   letter-spacing: 0.04em !important;
@@ -1453,7 +1453,7 @@
     }
 
   
-    /* v2.3.29 win share panel */
+    /* v2.3.30 win share panel */
     .win-share-panel {
       width: min(calc(100vw - 20px), 560px);
       margin-top: clamp(10px, 2.5vw, 18px);
@@ -1519,9 +1519,6 @@
       box-shadow: 0 2px 0 rgba(0,0,0,0.34);
     }
 
-    body.normal-calculator-mode .win-share-panel {
-      display: none !important;
-    }
 
 </style>
 
@@ -2815,7 +2812,6 @@
     }
 
     function restoreNormalCalculatorMode() {
-      hideWinSharePanel();
       normalCalculatorMode = true;
       isTimerPaused = true;
       roundActive = false;
@@ -4109,7 +4105,7 @@
     }
 
   
-    /* v2.3.29 Level 10 final victory */
+    /* v2.3.30 Level 10 final victory */
     body.normal-calculator-mode {
       background: #050505 !important;
     }
@@ -4240,7 +4236,7 @@
     }
 
   
-    /* v2.3.29 normal calculator layout fix */
+    /* v2.3.30 normal calculator layout fix */
     body.normal-calculator-mode .calculator {
       grid-template-rows: auto auto 1fr !important;
     }
@@ -4261,7 +4257,7 @@
     }
 
   
-    /* v2.3.29 normal calculator button position reset */
+    /* v2.3.30 normal calculator button position reset */
     body.normal-calculator-mode .buttons {
       display: grid !important;
       grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -4283,7 +4279,7 @@
     }
 
   
-    /* v2.3.29 standalone normal calculator after final victory */
+    /* v2.3.30 standalone normal calculator after final victory */
     .normal-calculator-panel {
       width: min(calc(100vw - 20px), 560px);
       height: min(calc(100dvh - 90px), 860px);
@@ -4386,7 +4382,7 @@
     }
 
   
-    /* v2.3.29 CRAP CLUE */
+    /* v2.3.30 CRAP CLUE */
     .crap-clue-button {
       background: linear-gradient(135deg, #55ffff, #ff4dff, #ffe066) !important;
       color: #000 !important;
@@ -4404,7 +4400,7 @@
     }
 
   
-    /* v2.3.29 animated CRAP CLUE display text */
+    /* v2.3.30 animated CRAP CLUE display text */
     #display.clue-text {
       font-size: clamp(14px, 4.2cqw, 24px) !important;
       letter-spacing: 0.08em !important;
@@ -4432,7 +4428,7 @@
     }
 
   
-    /* v2.3.29 FINAL CRAP CLUE TEXT OVERRIDE — must stay last */
+    /* v2.3.30 FINAL CRAP CLUE TEXT OVERRIDE — must stay last */
     #display.clue-text,
     .display.clue-text,
     input#display.clue-text {
@@ -4452,7 +4448,7 @@
     }
 
 
-    /* v2.3.29 auto-fit messages in calculator result window */
+    /* v2.3.30 auto-fit messages in calculator result window */
     #display.message-fit {
       font-size: clamp(13px, 4.4cqw, 26px) !important;
       letter-spacing: 0.04em !important;
@@ -4476,7 +4472,7 @@
     }
 
 
-    /* v2.3.29 keep floating external links below share panel */
+    /* v2.3.30 keep floating external links below share panel */
     body:has(.win-share-panel:not(.hidden)) {
       padding-bottom: 132px !important;
     }
@@ -4498,6 +4494,19 @@
       .win-share-panel {
         margin-bottom: 88px !important;
       }
+    }
+
+
+    /* v2.3.30 keep share panel under normal calculator after final win */
+    body.normal-calculator-mode .win-share-panel {
+      display: block !important;
+      width: min(calc(100vw - 20px), 560px) !important;
+      margin-top: clamp(10px, 2.5vw, 18px) !important;
+      margin-bottom: 88px !important;
+    }
+
+    body.normal-calculator-mode:has(.win-share-panel:not(.hidden)) {
+      padding-bottom: 152px !important;
     }
 
 </style>
