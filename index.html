@@ -1125,7 +1125,7 @@
     }
 
   
-    /* v2.3.25 Level 10 final victory */
+    /* v2.3.26 Level 10 final victory */
     body.normal-calculator-mode {
       background: #050505 !important;
     }
@@ -1256,7 +1256,7 @@
     }
 
   
-    /* v2.3.25 normal calculator layout fix */
+    /* v2.3.26 normal calculator layout fix */
     body.normal-calculator-mode .calculator {
       grid-template-rows: auto auto 1fr !important;
     }
@@ -1277,7 +1277,7 @@
     }
 
   
-    /* v2.3.25 normal calculator button position reset */
+    /* v2.3.26 normal calculator button position reset */
     body.normal-calculator-mode .buttons {
       display: grid !important;
       grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -1299,7 +1299,7 @@
     }
 
   
-    /* v2.3.25 standalone normal calculator after final victory */
+    /* v2.3.26 standalone normal calculator after final victory */
     .normal-calculator-panel {
       width: min(calc(100vw - 20px), 560px);
       height: min(calc(100dvh - 90px), 860px);
@@ -1402,7 +1402,7 @@
     }
 
   
-    /* v2.3.25 CRAP CLUE */
+    /* v2.3.26 CRAP CLUE */
     .crap-clue-button {
       background: linear-gradient(135deg, #55ffff, #ff4dff, #ffe066) !important;
       color: #000 !important;
@@ -1420,7 +1420,7 @@
     }
 
   
-    /* v2.3.25 animated CRAP CLUE display text */
+    /* v2.3.26 animated CRAP CLUE display text */
     #display.clue-text {
   font-size: clamp(60px, 18cqw, 100px) !important;
   letter-spacing: 0.04em !important;
@@ -1452,7 +1452,78 @@
       100% { opacity: 1; text-shadow: 0 0 14px rgba(85,255,255,1), 0 0 24px rgba(255,77,255,0.85); }
     }
 
-  </style>
+  
+    /* v2.3.26 win share panel */
+    .win-share-panel {
+      width: min(calc(100vw - 20px), 560px);
+      margin-top: clamp(10px, 2.5vw, 18px);
+      padding: clamp(10px, 2.5vw, 16px);
+      border-radius: clamp(16px, 4cqw, 24px);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.045)),
+        rgba(8,8,8,0.92);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 18px 52px rgba(0,0,0,0.45);
+      text-align: center;
+      color: #fff;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+
+    .win-share-panel.hidden {
+      display: none !important;
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .win-share-title {
+      font-size: clamp(14px, 4cqw, 22px);
+      font-weight: 1000;
+      letter-spacing: 0.09em;
+      line-height: 1.05;
+      margin-bottom: 4px;
+    }
+
+    .win-share-subtitle {
+      font-size: clamp(11px, 3cqw, 15px);
+      color: rgba(255,255,255,0.68);
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+
+    .share-win-button {
+      width: 100%;
+      border: 0;
+      border-radius: 999px;
+      padding: clamp(10px, 3cqw, 15px) clamp(12px, 4cqw, 20px);
+      background: #fff;
+      color: #000;
+      font-size: clamp(13px, 3.4cqw, 17px);
+      font-weight: 1000;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      box-shadow: 0 5px 0 rgba(0,0,0,0.30), 0 0 0 1px rgba(255,255,255,0.22) inset;
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+
+    .share-win-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .share-win-button:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.34);
+    }
+
+    body.normal-calculator-mode .win-share-panel {
+      display: none !important;
+    }
+
+</style>
 
 </head>
 <body>
@@ -1512,6 +1583,12 @@
     <div class="sound-label" id="soundLabel">COMPLETE 10 CALCULATIONS TO WIN!</div>
   </main>
 
+  <section class="win-share-panel hidden" id="winSharePanel" aria-live="polite">
+    <div class="win-share-title" id="winShareTitle">LEVEL COMPLETED</div>
+    <div class="win-share-subtitle" id="winShareSubtitle">Share your CRAPULATOR win.</div>
+    <button id="shareWinButton" class="share-win-button" type="button">SHARE WIN ON 𝕏</button>
+  </section>
+
   <script>
     const display = document.getElementById("display");
 
@@ -1555,6 +1632,10 @@
     const normalDisplay = document.getElementById("normalDisplay");
     const normalButtons = document.getElementById("normalButtons");
     const soundLabel = document.getElementById("soundLabel");
+    const winSharePanel = document.getElementById("winSharePanel");
+    const winShareTitle = document.getElementById("winShareTitle");
+    const winShareSubtitle = document.getElementById("winShareSubtitle");
+    const shareWinButton = document.getElementById("shareWinButton");
     const goalCount = document.getElementById("goalCount");
     const timerCount = document.getElementById("timerCount");
     const levelNumber = document.getElementById("levelNumber");
@@ -2734,6 +2815,7 @@
     }
 
     function restoreNormalCalculatorMode() {
+      hideWinSharePanel();
       normalCalculatorMode = true;
       isTimerPaused = true;
       roundActive = false;
@@ -3014,6 +3096,7 @@
     }
 
     function startRoundIfNeeded() {
+      hideWinSharePanel();
       if (isTimerPaused) return;
       if (roundActive || roundComplete) return;
 
@@ -3050,6 +3133,7 @@
     }
 
     function resetRound() {
+      hideWinSharePanel();
       clearDisplayMessageStyles();
       display.classList.remove("clue-text");
       clearCrapClueButton();
@@ -3100,10 +3184,62 @@
     }
 
 
+
+    let latestShareLevel = 1;
+    let latestShareIsFinal = false;
+
+    function hideWinSharePanel() {
+      if (winSharePanel) winSharePanel.classList.add("hidden");
+    }
+
+    function showWinSharePanel(level, isFinalLevelWin) {
+      latestShareLevel = level;
+      latestShareIsFinal = !!isFinalLevelWin;
+
+      if (!winSharePanel) return;
+
+      winSharePanel.classList.remove("hidden");
+
+      if (winShareTitle) {
+        winShareTitle.textContent = isFinalLevelWin
+          ? "CRAPULATOR DEFEATED"
+          : "LEVEL " + level + " COMPLETED";
+      }
+
+      if (winShareSubtitle) {
+        winShareSubtitle.textContent = isFinalLevelWin
+          ? "Share your final victory."
+          : "Share your Level " + level + " win.";
+      }
+    }
+
+    function shareCrapulatorWin() {
+      const gameUrl = "https://ideaordie.github.io/Crapulator/";
+
+      const shareText = latestShareIsFinal
+        ? "I defeated CRAPULATOR and restored the normal calculator. 🏆"
+        : "I completed Level " + latestShareLevel + "/10 in CRAPULATOR. 🧮💀";
+
+      const url = "https://twitter.com/intent/tweet?text=" +
+        encodeURIComponent(shareText + "\n\nPlay CRAPULATOR:\n" + gameUrl);
+
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    if (shareWinButton) {
+      shareWinButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        shareCrapulatorWin();
+      });
+    }
+
+
     function winRound() {
       if (roundComplete) return;
 
       const isFinalLevelWin = currentLevel >= 10;
+      const completedLevel = currentLevel;
 
       roundActive = false;
       roundComplete = true;
@@ -3115,6 +3251,7 @@
 
       const calculator = document.querySelector(".calculator");
       calculator.classList.add("win-state");
+      showWinSharePanel(completedLevel, isFinalLevelWin);
       setDisplayValue("YOU WIN", { fit: true });
 
       if (isFinalLevelWin) {
@@ -3974,7 +4111,7 @@
     }
 
   
-    /* v2.3.25 Level 10 final victory */
+    /* v2.3.26 Level 10 final victory */
     body.normal-calculator-mode {
       background: #050505 !important;
     }
@@ -4105,7 +4242,7 @@
     }
 
   
-    /* v2.3.25 normal calculator layout fix */
+    /* v2.3.26 normal calculator layout fix */
     body.normal-calculator-mode .calculator {
       grid-template-rows: auto auto 1fr !important;
     }
@@ -4126,7 +4263,7 @@
     }
 
   
-    /* v2.3.25 normal calculator button position reset */
+    /* v2.3.26 normal calculator button position reset */
     body.normal-calculator-mode .buttons {
       display: grid !important;
       grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -4148,7 +4285,7 @@
     }
 
   
-    /* v2.3.25 standalone normal calculator after final victory */
+    /* v2.3.26 standalone normal calculator after final victory */
     .normal-calculator-panel {
       width: min(calc(100vw - 20px), 560px);
       height: min(calc(100dvh - 90px), 860px);
@@ -4251,7 +4388,7 @@
     }
 
   
-    /* v2.3.25 CRAP CLUE */
+    /* v2.3.26 CRAP CLUE */
     .crap-clue-button {
       background: linear-gradient(135deg, #55ffff, #ff4dff, #ffe066) !important;
       color: #000 !important;
@@ -4269,7 +4406,7 @@
     }
 
   
-    /* v2.3.25 animated CRAP CLUE display text */
+    /* v2.3.26 animated CRAP CLUE display text */
     #display.clue-text {
       font-size: clamp(14px, 4.2cqw, 24px) !important;
       letter-spacing: 0.08em !important;
@@ -4297,7 +4434,7 @@
     }
 
   
-    /* v2.3.25 FINAL CRAP CLUE TEXT OVERRIDE — must stay last */
+    /* v2.3.26 FINAL CRAP CLUE TEXT OVERRIDE — must stay last */
     #display.clue-text,
     .display.clue-text,
     input#display.clue-text {
@@ -4317,7 +4454,7 @@
     }
 
 
-    /* v2.3.25 auto-fit messages in calculator result window */
+    /* v2.3.26 auto-fit messages in calculator result window */
     #display.message-fit {
       font-size: clamp(13px, 4.4cqw, 26px) !important;
       letter-spacing: 0.04em !important;
